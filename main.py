@@ -15,16 +15,31 @@
 # limitations under the License.
 #
 import webapp2
-from caesar import encrypt
+import caesar
+import cgi
+
+def buildpage(text_area_content):
+    header = '<h2>Caesar Cipher</h2>'
+    rot_label = '<label>Rotate by: </label>'
+    rotation = '<input type = "number" name = "rot" >'
+    text_label = '<label>Message to encode: </label>'
+    textarea = '<textarea name = "message">' + text_area_content + '</textarea>'
+    button = '<input type="submit" />'
+    form = '<form method="post">' + rot_label + rotation + '<br>' + text_label + textarea + '<br>' + button + '</form>'
+    return header + form
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        message = "Hello world!!!"
-        encrypted_message = encrypt(message, 13)
-        textarea = '<textarea>' + encrypted_message + '</textarea>'
-        button = '<input type="submit" />'
-        form = '<form>' + textarea + '<br>' + button + '</form>'
-        self.response.write(form)
+        content = buildpage("")
+        self.response.write(content)
+
+    def post(self):
+        message = self.request.get("message")
+        num = self.request.get("rot")
+        encrypted_message = caesar.encrypt(message, int(num))
+        escaped_message = cgi.escape(encrypted_message)
+        content = buildpage(escaped_message)
+        self.response.write(content)
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler)
