@@ -25,40 +25,51 @@ def buildpage(text_area_content):
             color: #111;
         }
         img {
-            width: 80%;
+            width: 85%;
         }
         #eyes {
             z-index: -1;
             position: absolute;
-            transform: translate3d(-2px, 0px, 0px);
+            transform: translate3d(-1px, 0px, 0px);
             transition: transform 1s ease-in-out;
+            width: 80%;
         }
         #bust:hover + #eyes{
-            transform: translate3d(20px, 0px, 0px);
+            transform: translate3d(18px, 0px, 0px);
         }
         #bust {
             z-index: +1;
             position: absolute;
+            float:left;
+            width: 80%;
         }
         .right {
             float: right;
-            clear: both;
+            clear: right;
         }
         input {
+            z-index: +10;
             padding: 10px;
             margin: 20px;
         }
+        #rot {
+            width: 70px;
+        }
+        #message {
+            width: 150px;
+            height: 120px;
+        }
 
     </style>'''
-    divs = '<div id="bust"><img src = "/images/caesar_bust.png"/></div><div id="eyes"><img src = "/images/caesar_eyes.png"/></div>'
+    img_divs = '<div id="bust"><img src = "/images/caesar_bust.png"/></div><div id="eyes"><img src = "/images/caesar_eyes.png"/></div>'
     header = '<h2 class="right">Caesar Cipher</h2><br>'
     rot_label = '<label>Rotate by: </label>'
-    rotation = '<input type = "number" name = "rot" >'
+    rotation = '<input id="rot" type = "number" name = "rot" >'
     text_label = '<label>Message to encode: </label>'
-    textarea = '<textarea name = "message">' + text_area_content + '</textarea>'
+    textarea = '<textarea id="message" name = "message">' + text_area_content + '</textarea>'
     button = '<input class = "right" type="submit" />'
     form = '<div class="right">' + styles + '<form method="post">' + rot_label + rotation + '<br>' + text_label + textarea + '<br>' + button + '</form></div>'
-    return header + form + divs
+    return header + form + img_divs
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
