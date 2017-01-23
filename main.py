@@ -19,14 +19,46 @@ import caesar
 import cgi
 
 def buildpage(text_area_content):
-    header = '<h2>Caesar Cipher</h2>'
+    styles = '''<style>
+        * {
+            font-family: "Arial Black", Gadget, sans-serif;
+            color: #111;
+        }
+        img {
+            width: 80%;
+        }
+        #eyes {
+            z-index: -1;
+            position: absolute;
+            transform: translate3d(-2px, 0px, 0px);
+            transition: transform 1s ease-in-out;
+        }
+        #bust:hover + #eyes{
+            transform: translate3d(20px, 0px, 0px);
+        }
+        #bust {
+            z-index: +1;
+            position: absolute;
+        }
+        .right {
+            float: right;
+            clear: both;
+        }
+        input {
+            padding: 10px;
+            margin: 20px;
+        }
+
+    </style>'''
+    divs = '<div id="bust"><img src = "/images/caesar_bust.png"/></div><div id="eyes"><img src = "/images/caesar_eyes.png"/></div>'
+    header = '<h2 class="right">Caesar Cipher</h2><br>'
     rot_label = '<label>Rotate by: </label>'
     rotation = '<input type = "number" name = "rot" >'
     text_label = '<label>Message to encode: </label>'
     textarea = '<textarea name = "message">' + text_area_content + '</textarea>'
-    button = '<input type="submit" />'
-    form = '<form method="post">' + rot_label + rotation + '<br>' + text_label + textarea + '<br>' + button + '</form>'
-    return header + form
+    button = '<input class = "right" type="submit" />'
+    form = '<div class="right">' + styles + '<form method="post">' + rot_label + rotation + '<br>' + text_label + textarea + '<br>' + button + '</form></div>'
+    return header + form + divs
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
